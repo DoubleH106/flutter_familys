@@ -1,5 +1,6 @@
 import 'package:familys/screen/FirstScreen.dart';
 import 'package:familys/screen/HomeScreen.dart';
+import 'package:familys/screen/NavScreen.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -20,7 +21,7 @@ class MyApp extends StatelessWidget {
       ),
       debugShowCheckedModeBanner: false,
       // home: const FirstScreen(),
-      home: HomeScreen(),
+      home: NavScreen(),
     );
   }
 }
