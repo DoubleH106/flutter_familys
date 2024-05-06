@@ -110,7 +110,7 @@ class HomeScreenState extends State<HomeScreen> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
-                        if(showLike = false)
+                        if(item["likepost"] == false)
                         GestureDetector(
                           onTap: () {
                             likePost(1, item["homeId"]);
@@ -122,7 +122,7 @@ class HomeScreenState extends State<HomeScreen> {
                             size: 40, // Kích thước của biểu tượng
                           ),
                         ),
-                        if(showLike = true)
+                        if(item["likepost"] == true)
                           GestureDetector(
                             onTap: () {
                               // likePost(1, item["homeId"]);

@@ -17,16 +17,12 @@ class _NavScreenState extends State<NavScreen> {
 
   final List<IconData> _icons = [
     Icons.home,
-    Icons.radar,
-    Icons.radio_button_checked_rounded,
-    Icons.library_music_outlined,
+    Icons.chat_bubble_outline,
     Icons.person_outline,
   ];
   final List<String> _labels = const [
     'Trang Chủ',
-    'Khám Phá',
-    '#zingchart',
-    'Radio',
+    'Nhắn Tin',
     'Cá Nhân',
   ];
   int _selectedIndex = 0;
