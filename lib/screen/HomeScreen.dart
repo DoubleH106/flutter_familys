@@ -14,8 +14,7 @@ class HomeScreenState extends State<HomeScreen> {
   List<dynamic> News = [];
   late String avatar = "";
   late String title = "";
-  late int like = 0;
-  late int Share = 0;
+  late bool showLike = false;
   void initState() {
     super.initState();
     fetchData();
@@ -23,13 +22,20 @@ class HomeScreenState extends State<HomeScreen> {
 
   void fetchData() async {
     try {
-      final data = await HomeController.News("1");
+      final data = await HomeController.News(1);
       setState(() {
         News = data;
       });
     } catch (e) {
       print('Error: fetchData $e');
     }
+  }
+
+  void likePost(int accId, int homeId) async {
+    final data = await HomeController.likepost(accId, homeId);
+    setState(() {
+      showLike = true;
+    });
   }
 
   @override
@@ -43,98 +49,118 @@ class HomeScreenState extends State<HomeScreen> {
             width: MediaQuery.of(context).size.width * 0.8,
             height: MediaQuery.of(context).size.height,
             child: ListView.builder(
-                shrinkWrap: true,
-            itemCount: News.length,
-            itemBuilder: (context, index) {
-              var item = News[index];
-              return Column(
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      GestureDetector(
-                        onTap: () {},
-                        child: Container(
-                          width: 50,
-                          height: 50,
-                          decoration: const BoxDecoration(
-                              shape: BoxShape.circle,
-                              image: DecorationImage(
-                                  image: AssetImage("huong.jpg"))),
+              shrinkWrap: true,
+              itemCount: News.length,
+              itemBuilder: (context, index) {
+                var item = News[index];
+                return Column(
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        GestureDetector(
+                          onTap: () {},
+                          child: Container(
+                            width: 50,
+                            height: 50,
+                            decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                image: DecorationImage(
+                                    image: AssetImage(item["avatarUser"]))),
+                          ),
                         ),
-                      ),
-                      const SizedBox(
-                        width: 20,
-                      ),
-                      const Text(
-                        "Nguyễn Quang Hướng",
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 20),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(
-                    height: 15,
-                  ),
-                  Container(
-                    height: 350,
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(25),
-                        image: const DecorationImage(
-                          image: AssetImage("huong.jpg"),
-                          fit: BoxFit.cover,
-                        )),
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  Text(
-                    item["title"],
-                    style: TextStyle(fontSize: 18),
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      GestureDetector(
-                        onTap: () {
-                          print("Nguyễn Quang Huowsng");
-                        },
-                        child: const Icon(
-                          Icons.favorite,
+                        const SizedBox(
+                          width: 20,
+                        ),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              item["userName"],
+                              style: const TextStyle(
+                                  fontWeight: FontWeight.bold, fontSize: 20),
+                            ),
+                            Text(item["create"]),
+                          ],
+                        )
+                      ],
+                    ),
+                    const SizedBox(
+                      height: 15,
+                    ),
+                    Container(
+                      height: 350,
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(25),
+                          image: DecorationImage(
+                            image: AssetImage(item["avatar"]),
+                            fit: BoxFit.cover,
+                          )),
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    Text(
+                      item["title"],
+                      style: TextStyle(fontSize: 18),
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        if(showLike = false)
+                        GestureDetector(
+                          onTap: () {
+                            likePost(1, item["homeId"]);
+                          },
+                          child: const Icon(
+                            Icons.favorite,
+                            color:
+                                Colors.grey, // IconData của biểu tượng trái tim
+                            size: 40, // Kích thước của biểu tượng
+                          ),
+                        ),
+                        if(showLike = true)
+                          GestureDetector(
+                            onTap: () {
+                              // likePost(1, item["homeId"]);
+                            },
+                            child: const Icon(
+                              Icons.favorite,
+                              color:
+                              Colors.red, // IconData của biểu tượng trái tim
+                              size: 40, // Kích thước của biểu tượng
+                            ),
+                          ),
+                        SizedBox(
+                          width: 10,
+                        ),
+                        Icon(
+                          Icons.comment,
                           color:
-                          Colors.grey, // IconData của biểu tượng trái tim
+                              Colors.grey, // IconData của biểu tượng trái tim
                           size: 40, // Kích thước của biểu tượng
                         ),
-                      ),
-                      SizedBox(
-                        width: 10,
-                      ),
-                      Icon(
-                        Icons.comment,
-                        color:
-                        Colors.grey, // IconData của biểu tượng trái tim
-                        size: 40, // Kích thước của biểu tượng
-                      ),
-                      SizedBox(
-                        width: 10,
-                      ),
-                      Icon(
-                        Icons.share,
-                        color:
-                        Colors.grey, // IconData của biểu tượng trái tim
-                        size: 40, // Kích thước của biểu tượng
-                      )
-                    ],
-                  ),
-                  SizedBox(
-                    height: 50,
-                  ),
-                ],
-              );
-            },            ),
+                        SizedBox(
+                          width: 10,
+                        ),
+                        Icon(
+                          Icons.share,
+                          color:
+                              Colors.grey, // IconData của biểu tượng trái tim
+                          size: 40, // Kích thước của biểu tượng
+                        )
+                      ],
+                    ),
+                    SizedBox(
+                      height: 50,
+                    ),
+                  ],
+                );
+              },
+            ),
           ),
         ));
   }
