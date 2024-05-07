@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../wiget/CustomTabbar.dart';
 import 'HomeScreen.dart';
+import 'MapScreen.dart';
 
 class NavScreen extends StatefulWidget {
   const NavScreen({super.key});
@@ -13,16 +14,20 @@ class NavScreen extends StatefulWidget {
 class _NavScreenState extends State<NavScreen> {
   final List<Widget> _screens = [
     HomeScreen(),
+    HomeScreen(),
+    // MapScreen(),
   ];
 
   final List<IconData> _icons = [
     Icons.home,
     Icons.chat_bubble_outline,
+    Icons.location_on_outlined,
     Icons.person_outline,
   ];
   final List<String> _labels = const [
     'Trang Chủ',
     'Nhắn Tin',
+    'Map',
     'Cá Nhân',
   ];
   int _selectedIndex = 0;

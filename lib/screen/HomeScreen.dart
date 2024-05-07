@@ -12,9 +12,6 @@ class HomeScreen extends StatefulWidget {
 class HomeScreenState extends State<HomeScreen> {
   List<dynamic> Comments = [];
   List<dynamic> News = [];
-  late String avatar = "";
-  late String title = "";
-  late bool showLike = false;
   void initState() {
     super.initState();
     fetchData();
@@ -33,9 +30,9 @@ class HomeScreenState extends State<HomeScreen> {
 
   void likePost(int accId, int homeId) async {
     final data = await HomeController.likepost(accId, homeId);
-    setState(() {
-      showLike = true;
-    });
+  }
+void offlikepost(int accId, int homeId) async {
+    final data = await HomeController.offlikepost(accId, homeId);
   }
 
   @override
@@ -114,6 +111,9 @@ class HomeScreenState extends State<HomeScreen> {
                         GestureDetector(
                           onTap: () {
                             likePost(1, item["homeId"]);
+                            setState(() {
+                              item["likepost"] = true;
+                            });
                           },
                           child: const Icon(
                             Icons.favorite,
@@ -125,7 +125,10 @@ class HomeScreenState extends State<HomeScreen> {
                         if(item["likepost"] == true)
                           GestureDetector(
                             onTap: () {
-                              // likePost(1, item["homeId"]);
+                              offlikepost(1, item["homeId"]);
+                              setState(() {
+                                item["likepost"] = false;
+                              });
                             },
                             child: const Icon(
                               Icons.favorite,
@@ -134,19 +137,19 @@ class HomeScreenState extends State<HomeScreen> {
                               size: 40, // Kích thước của biểu tượng
                             ),
                           ),
-                        SizedBox(
+                        const SizedBox(
                           width: 10,
                         ),
-                        Icon(
+                        const Icon(
                           Icons.comment,
                           color:
                               Colors.grey, // IconData của biểu tượng trái tim
                           size: 40, // Kích thước của biểu tượng
                         ),
-                        SizedBox(
+                        const SizedBox(
                           width: 10,
                         ),
-                        Icon(
+                        const Icon(
                           Icons.share,
                           color:
                               Colors.grey, // IconData của biểu tượng trái tim
@@ -154,7 +157,7 @@ class HomeScreenState extends State<HomeScreen> {
                         )
                       ],
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 50,
                     ),
                   ],
